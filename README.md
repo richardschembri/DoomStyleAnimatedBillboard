@@ -3,6 +3,10 @@ Animated billboard with multiple view angles
 
 <img src="doc/WalkAround.gif"/>
 
+## Features
++ Uses Sprite Renderer instead of textures
++ Uses the Animator blend trees for the multi directional animations.
+
 ## License
 + MIT License
 
