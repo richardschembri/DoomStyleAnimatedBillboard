@@ -1,19 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-public class BillBoardSprite : MonoBehaviour {
+[RequireComponent(typeof(Animator))]
+public class AnimatedBillboardSprite : MonoBehaviour {
 
-    public bool FaceY = false;
+    public int directions = 8;
     public bool MirrorLeft = true;
     public Camera MainCamera;
     Animator m_Anim;
     SpriteRenderer m_SpriteRenderer;
+    float minMirrorAngle = 0;
+    float maxMirrorAngle = 0;
 
 	void Start () {
         m_Anim = this.GetComponent<Animator>();
         m_SpriteRenderer = this.GetComponent<SpriteRenderer>();
+        if (directions <= 0)
+        {
+            directions = 1;
+        } 
+        minMirrorAngle = (360 / directions) / 2;
+        maxMirrorAngle = 180 - minMirrorAngle; 
 	}
 
     private void Awake()
@@ -25,17 +32,15 @@ public class BillBoardSprite : MonoBehaviour {
     }
 
     void Update () {
-        float y = (FaceY) ? MainCamera.transform.forward.y : 0;
-        Vector3 viewDirection = -new Vector3(MainCamera.transform.forward.x, y, MainCamera.transform.forward.z);
+        Vector3 viewDirection = -new Vector3(MainCamera.transform.forward.x, 0, MainCamera.transform.forward.z);
         transform.LookAt(transform.position + viewDirection);
         m_Anim.SetFloat("ViewAngle", transform.localEulerAngles.y);
         if (MirrorLeft)
         {
-            m_SpriteRenderer.flipX = !(transform.localEulerAngles.y >= 25 && transform.localEulerAngles.y <= 157) ;
+            m_SpriteRenderer.flipX = !(transform.localEulerAngles.y >= minMirrorAngle && transform.localEulerAngles.y <= maxMirrorAngle) ;
         }
     }
 
-#if UNITY_EDITOR
     /// <summary>
     /// Rotate billboards to face editor camera while game not running.
     /// </summary>
@@ -43,15 +48,18 @@ public class BillBoardSprite : MonoBehaviour {
     {
         if (!Application.isPlaying)
         {
-            UnityEditor.SceneView sceneView = GetActiveSceneView();
+            SceneView sceneView = GetActiveSceneView();
             if (sceneView)
             {
                 // Editor camera stands in for player camera in edit mode
-                float y = (FaceY) ? MainCamera.transform.forward.y : 0;
-                Vector3 viewDirection = -new Vector3(sceneView.camera.transform.forward.x, y, sceneView.camera.transform.forward.z);
+                Vector3 viewDirection = -new Vector3(sceneView.camera.transform.forward.x, 0, sceneView.camera.transform.forward.z);
                 transform.LookAt(transform.position + viewDirection);
             }
         }
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay( transform.parent.position, transform.parent.forward * 2);
+
     }
 
     private SceneView GetActiveSceneView()
@@ -62,6 +70,4 @@ public class BillBoardSprite : MonoBehaviour {
 
         return null;
     }
-#endif
-
 }
