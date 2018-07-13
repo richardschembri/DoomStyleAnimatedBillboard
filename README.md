@@ -16,4 +16,4 @@ Animated billboard with multiple view angles
 + Billboard logic based on: https://github.com/Interkarma/daggerfall-unity
 
 ## Credits
-+ Shader code developed by: Risthart - https://github.com/Risthar
++ Shader code developed by: Risthart - https://github.com/Risthart
