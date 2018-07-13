@@ -1,4 +1,5 @@
-﻿Shader "Custom/BillboardSpriteShader" {
+﻿// Shader code developed by: Risthart - https://github.com/Risthart
+Shader "Custom/BillboardSpriteShader" {
 	Properties
 	{
 		[PerRendererData] _MainTex("Sprite Texture", 2D) = "white" {}
@@ -41,7 +42,6 @@
 					float4 model = mul(UNITY_MATRIX_M, float4(0, (IN.vertex.y + _OffsetY) * _ScaleY, 0.0, 1.0));
 					float4 view = mul(UNITY_MATRIX_V, model);
 					float4 proj = mul(UNITY_MATRIX_P, view
-						//+ float4(IN.vertex.x, 1.0, 0.0, 0.0)
 						+ float4(IN.vertex.x, 0.0, 0.0, 0.0)
 						* float4(_ScaleX, 1.0, 1.0, 1.0));
 					OUT.vertex = proj;

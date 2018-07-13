@@ -14,3 +14,6 @@ Animated billboard with multiple view angles
 + Sprites: https://github.com/freedoom/freedoom
 + Ground Texture: https://github.com/unitycoder/DoomStyleBillboardTest
 + Billboard logic based on: https://github.com/Interkarma/daggerfall-unity
+
+## Credits
++ Shader code developed by: Risthart - https://github.com/Risthar
